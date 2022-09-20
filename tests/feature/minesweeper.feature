@@ -8,7 +8,7 @@ Feature: Minesweeper
     Represents a suspected mine: "!"
     Represents a questionable mine: "?"
     Represents a row "-" ###-#x#-###
-    
+
     1 means a cell with 1 adjacent bomb
     2 means a cell with 2 adjancets boombs
     3 means a cell with 3 adjancets boombs
@@ -26,11 +26,23 @@ Feature: Minesweeper
         And the number of columns should be: "8"
         And the number of rows should be: "8"
 
-    Scenario: Reveals a cell with a bomb -> End Game
-        Given the user loads the following mock data: "#X"
+    Scenario: Default flags counter
+        Then the page show the board
+        And the flags counter should be the following value: "10"
+    
+    Scenario: Default time counter 
+        Then the page show the board
+        And the time counter should be the following value: "0"
+
+    Scenario: Default button status -> the button should show a icon depending of the state at the game
+        Then the page show the board
+        And the button status should be the following value : "boredFace"
+
+    Scenario Outline: Reveals a cell with a bomb -> End Game
+        Given the user loads the following mock data: "###-##x-###"
         When the user reveals the cell "2, 3"
         Then the cell "2, 3" shoould be a bomb
-        And the gema shoould be over
+        And the game shoould be over
 
     Scenario: Tag a cell with a suspected bomb
         When the user tag the cell "2, 3" as a suspected mine
@@ -48,14 +60,33 @@ Feature: Minesweeper
         When the user untag the cell "2, 3" as a questionable mine
         Then the cell "2, 3" should show the following value: ""
 
-    Scenario: Reveals a cell within a bomb -> should show the numbers of bombs adjacents
+    Scenario Outline: Reveals a cell within a bomb -> should show the numbers of bombs adjacents
         Given the user loads the following mock data: "<mockData>"
-        When the user reveals the "<row>" row, col "<col>"
-        Then the the cell located in "<row>" row , col "<col>" should show the folling value: "<numberOfMines>"
-        
-        Example: 
+        When the user reveals the cell "(2, 2)"
+        Then the the cell "(2,2)" should show the folling value: "<numberOfMines>"
 
-    
+    Example:
+            | mockData    | numberOfMines |
+            | #x#-###-### | 1             |
+            | #x#-###-x## | 2             |
+            | #xx-##x-### | 3             |
+            | xx#-###-x#x | 4             |
+            | ###-x#x-xxx | 5             |
+            | x#x-x##-xxx | 6             |
+            | xxx-##x-xxx | 7             |
+            | xxx-x#x-xxx | 8             |
+
+
+    Scenario: Increment the time counter
+        Given the user loads the following mockData: "<mockData>"
+        When the user reveals the cell located at row "<row>" col "<col>"
+        Then the time counter "<timeCounter>"  start to increase
+        
+
+#
+#Scenario: Counter flags -> should show the number of flags remaining
+#   When the user tag the cell "<row>"  as a suspected bomb
+#  Then the flag counter "<flagCounter>" start to decrease
 
 
 #Scenario: Default initial board score
