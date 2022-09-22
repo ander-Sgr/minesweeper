@@ -19,7 +19,8 @@ Feature: Minesweeper core
     "7" means a cell with 7 adjancets boombs
     "8" means a cell with 8 adjancets boombs
 
-    For load the mockdata the user have to put in the URL as a param the
+    For load the mockdata the user have to put in the URL as a param the following data: "<mockData>"
+
     TODO: Como cargar el mockData
     ??
     '
@@ -27,13 +28,7 @@ Feature: Minesweeper core
     Background:
         Given a user opens the app
 
-    Scenario: End Game, Revealing a cell with a bomb
-        Given the user loads the following mock data: "###-##x-###"
-        When the user reveals the cell "(2, 3)"
-        Then the cell "(2, 3)" should be a bomb
-        And the game should be over
-
-    Scenario Outline: Revealing a cell without a bomb -> should show the numbers of bombs adjacents
+    Scenario Outline: Revealing a cell without a mine -> should show the numbers of mines adjacents
         Given the user loads the following mock data: "<mockData>"
         When the user reveals the cell "(2, 2)"
         Then the the cell "(2, 2)" should show the folling value: "<numberOfMines>"
@@ -49,41 +44,48 @@ Feature: Minesweeper core
             | xxx-##x-xxx | 7             |
             | xxx-x#x-xxx | 8             |
 
-
-    Scenario Outline: Revealing a cell and their neighbors without a bombs
-        Given the user loads the following mock data: "<mockData>"
+    Scenario Outline: Revealing a cell with 0 mines adjacents -> should reveals their neighbors recursively
+        Given the user loads the following mock data: "#####-#####-#####-#####-#####"
         When the user reveals the cell "(2, 2)"
-        Then the board revelas the neighbors cell: "<cellsRevealed>" recursively
+        Then the board revelas the neighbors cell: "ooo1x-ooo11-ooooo-111oo-2x1oo"
 
-    Example:
-            | mockData                      | cellsRevealed                 |
-            | #####-#####-#####-#####-##### | ooo1x.ooo11-ooooo-111oo-2x1oo |
+    Scenario: End Game, Revealing a cell with a mine
+        Given the user loads the following mock data: "###-##x-###"
+        When the user reveals the cell "(2, 3)"
+        Then the cell "(2, 3)" should be a mine
+        And the game should be over
+    #deberia de hacer un scenario donde explique que ha de salir cuando acabe el juego ?
 
-
-    Scenario Outline: End game, should show all the bombs in the board
-        Given the user loads the following mock data: "<mockData>"
+    Scenario Outline: End game, should show all the mines in the board
+        Given the user loads the following mock data: "##x-###-###"
         When the user reveals the cell "1,3" with a mine
-        Then the expected data in the board shoould be: "<expectedData>"
-
-    Example:
-            | mockData    | expectedValues |
-            | ##x-###-### | oox-oox-xoo    |
+        Then the board shoould be: "oox-oox-xoo"
 
     ##deberia de estar en core ?, habría que hacer para bomba suspected y bomba questionable ?
-    Scenario: End game, revealing all the bombs with a tagged cell without a bomb
+    Scenario: End game, revealing all the mines with a tagged cell without a mines
         Given the user loads the following mock data: "##!-###-###"
-        When the user tagg the cell "(1, 3)" without a bomb
-        And the user reveals the cell "(3, 3)" with a bomb
+        When the user tagg the cell "(1, 3)" without a mines
+        And the user reveals the cell "(3, 3)" with a mines
         Then the board should be: "oo*-ooo-xxx"
 
 
-    Scenario: End game, revealing all the bombs with a tegged cell with a bomb
+    Scenario: End game, revealing all the mines with a tegged cell with a mines
         Given the user loads the following mock data: "##!-###-###"
-        When the user tagg the cell "(1, 3)" with a bomb
-        And the user reveals the cell "(3, 3)" with a bomb
+        When the user tagg the cell "(1, 3)" with a mines
+        And the user reveals the cell "(3, 3)" with a mines
         Then the board should be: "oo!-ooo-xxx"
 
+    #Scenario cuando el juego esta en over-game
 
+    #el win game ha de estar en core ?
+    Scenario: Win the game -> all the cells with mines have been tagged correctly
+        Given the user loads the following mock data: "!oo-!o!-ooo"
+        And  the untagged mines counter show the following value: "0"
+        Then the user wins the game
+
+    Scenario: Win the game -> all the cells without mines have been revealed
+        Given the user loads the following mock data: "#oo-#o#-ooo"
+        Then the user wins the game
 #Scenario Outline: End game, Tagging a cell with a bomb -> should show all the bombs in the board except the tagged cell
 #    Given the user loads the following mockData: "<mockData>"
 #    When the user tags the cell "1,3"
