@@ -29,7 +29,7 @@ Feature: Minesweeper
         And the number of columns in the minefield should be: "8"
         And the number of rows in the minefield should be: "8"
 
-    Scenario: Default flags counter
+    Scenario: Default untagged mines counter
         And the untagged mines counter should be the following value: "10"
 
     Scenario: Default time counter
@@ -38,21 +38,67 @@ Feature: Minesweeper
     Scenario: Default button status -> the button should show a icon depending of the state at the game
         And the button status should be the following value : "boredFace"
 
-    Scenario: Tag a cell with a suspected bomb
+    Scenario: Tagging a cell with a suspected mine
         When the user tag the cell "2, 3" as a suspected mine
         Then the cell "2, 3" should show the following value: "!"
 
-    Scenario: Untag a cell with a suspected bomb
+    Scenario: Untagging a cell with a suspected mine
         When the user untag the cell "2, 3" as a mine
         Then the cell "2, 3" should show the following value: ""
 
-    Scenario: Tag a cell with a questionable mine
+    Scenario: Tagging a cell with a questionable mine
         When the user tag the cell "2, 3" as a questionable mine
         Then the cell "2, 3" should show the following value: "?"
 
-    Scenario: Untag a cell with a questionable mine
+    Scenario: Untagging a cell with a questionable mine
         When the user untag the cell "2, 3" as a questionable mine
         Then the cell "2, 3" should show the following value: ""
+
+    Scenario Outline: Untagged mines counter -> the counter should started decrease
+        When the user tag the cell "2, 3"
+        Then the untagged mine counter shoould be the following value: "9"
+
+    Scenario Outline: Untagged mines counter -> the counter should started increase
+        When the user tag the cell "2, 3"
+        Then the untagged mine counter shoould be the following value: "10"
+
+    Scenario: Negative utagged mine counter
+        Given the user loads the following mockData: "!!!!!-!!!!!-!!!!!"
+        Then the untagged mine counter should show the following value: "-5"
+
+    Scenario: Tagging a cell with a questionable bomb -> the untagged mines counter don't do nothing
+        When the user tag the cell "(2, 3)"
+        Then the untagged mine counter shoould be the following value: "10"
+
+    Scenario: Untagging a cell with a suspected bomb -> the untagged mines counter don't do nothing
+        When the user tag the cell "(2,3)"
+        Then the untagged mine counter shoould be the following value: "10"
+
+    Scenario: Revealing a cell -> using the mouse click
+        When ther user press left click on the cell "(2,3)"
+        Then the cell "(2,3)" should be revealed
+
+    Scenario: Tagging a cell as a suspected mine -> using the mouse click
+        When the user press "<click>" click on the cell "(2,3)"
+        Then the cell "(2,3)" should be tagged
+
+    Scenario: Untaggin a cell as a suspected mine -> using the mouse click
+        When the user press right click on the cell "(2,3)"
+        And the user press right click another one on the cell "(2, 3)"
+        And the user press right click another one on the cell "(2, 3)"
+        Then the cell "(2,3)" should be untagged
+
+    Scenario: Tagging a cell as a questionable mine -> using the mouse click
+        When the user press right click on the cell "(2,3)"
+        And the user press right click another one on the cell "(2, 3)"
+        Then the cell "(2,3)" should be tagged
+
+    Scenario: Untaggin a cell as a questionable mine -> using the mouse click
+        When the user press right click on the cell "(2,3)"
+        And the user press right click another one on the cell "(2, 3)"
+        And the user press right click another one on the cell "(2, 3)"
+        Then the cell "(2,3)" should be untagged
+
 
 
 #Scenario: Counter flags -> should show the number of flags remaining
