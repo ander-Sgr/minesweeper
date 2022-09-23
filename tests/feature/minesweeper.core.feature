@@ -4,8 +4,8 @@ Feature: Minesweeper core
 
     Represents a hidden cell: "#"
     Represents a cell with mine: "X"
-    Represents a cell without a bomb: "o"
-    Represents a tagged cell with a bomb: "*"
+    Represents a cell without a mine: "o"
+    Represents a tagged cell with a mine: "*"
     Represents a suspected mine: "!"
     Represents a questionable mine: "?"
     Represents a row "-" ###-#x#-###
@@ -19,18 +19,22 @@ Feature: Minesweeper core
     "7" means a cell with 7 adjancets boombs
     "8" means a cell with 8 adjancets boombs
 
-    For load the mockdata the user have to put in the URL as a param the following data presents 
+    For load the mockdata the user have to put in the URL as a param the following data presents
     in the Scenarios
-    Ex: http://127.0.0.1:5500/minesweeper/src/index.html&###-###-###
+    Ex: http://127.0.0.1:5500/minesweeper/src/index.html&mockData=###-###-###
     '
 
     Background:
         Given a user opens the app
 
-    Scenario Outline: Revealing a cell without a mine -> should show the numbers of mines adjacents
+    Scenario: Revealing a cell
+        When the user reveals the cell "(2,3)"
+        Then the cell shoould be revealed
+    
+     Scenario Outline: Revealing a cell without a mine -> should show the numbers of mines adjacents
         Given the user loads the following mock data: "<mockData>"
         When the user reveals the cell "(2, 2)"
-        Then the the cell "(2, 2)" should show the folling value: "<numberOfMines>"
+        Then the the cell "(2, 2)" should show the following value: "<numberOfMines>"
 
         Examples:
             | mockData    | numberOfMines |
@@ -43,10 +47,15 @@ Feature: Minesweeper core
             | xxx-##x-xxx | 7             |
             | xxx-x#x-xxx | 8             |
 
-    Scenario Outline: Revealing a cell with 0 mines adjacents -> should reveals their neighbors recursively
+    Scenario: Revealing a empty cell
+        Given the user loads the following mock data: "###-#x#-###"
+        When the user reveals the cell "(2,2)"
+        Then the cell should show the following value: "0"
+
+    Scenario Outline: Revealing a cell with 0 mines adjacents -> should reveals their neighbors
         Given the user loads the following mock data: "#####-#####-#####-#####-#####"
         When the user reveals the cell "(2, 2)"
-        Then the board revelas the neighbors cell: "ooo1x-ooo11-ooooo-111oo-2x1oo"
+        Then the board reveals the neighbors cell: "ooo1x-ooo11-ooooo-111oo-2x1oo"
 
     Scenario: End Game -> Revealing a cell with a mine
         Given the user loads the following mock data: "###-##x-###"
@@ -86,5 +95,6 @@ Feature: Minesweeper core
         Given the user loads the following mock data: "#oo-#o#-ooo"
         Then the user wins the game
 
-    
-TODO: Falta indicar las minas mal tageadas cuando revienta una mina - Añadir nuevo escenario
+    Scenario: Win the game -> reveals all mines wihtout use the untagged counter mines
+        Given the 
+#TODO: Falta indicar las minas mal tageadas cuando revienta una mina - Añadir nuevo escenario

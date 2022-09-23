@@ -21,7 +21,7 @@ Feature: Minesweeper
 
     For load the mockdata the user have to put in the URL as a param the following data presents
     in the Scenarios
-    Ex: http://127.0.0.1:5500/minesweeper/src/index.html&###-###-###
+    Ex: http://127.0.0.1:5500/minesweeper/src/index.html&mockData=###-###-###
     '
     Background:
         Given a user opens the app
@@ -83,7 +83,7 @@ Feature: Minesweeper
         When the user tag the cell "(2,3)"
         Then the untagged mine counter shoould be the following value: "10"
 
-    Scenario: Revealing a cell -> using the mouse click
+    Scenario: using the mouse click  -> Revealing a cell 
         When ther user press left click on the cell "(2,3)"
         Then the cell "(2,3)" should be revealed
 
@@ -149,7 +149,7 @@ Feature: Minesweeper
         And the cell "(3,2)" shoould be disabled
         And the cell "(3,3)" shoould be disabled
 
-    Scenario: Disabling all the cells on the board -> End game
+    Scenario: Disabling all the cells on the board by game over
         Given the user loads the following mock data: "###-##x-###"
         When the user reveals the cell "(2,3)" with a mine
         Then the cell "(1,1)" shoould be disabled
