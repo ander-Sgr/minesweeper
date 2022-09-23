@@ -19,10 +19,9 @@ Feature: Minesweeper core
     "7" means a cell with 7 adjancets boombs
     "8" means a cell with 8 adjancets boombs
 
-    For load the mockdata the user have to put in the URL as a param the following data: "<mockData>"
-
-    TODO: Como cargar el mockData
-    ??
+    For load the mockdata the user have to put in the URL as a param the following data presents 
+    in the Scenarios
+    Ex: http://127.0.0.1:5500/minesweeper/src/index.html&###-###-###
     '
 
     Background:
@@ -49,27 +48,27 @@ Feature: Minesweeper core
         When the user reveals the cell "(2, 2)"
         Then the board revelas the neighbors cell: "ooo1x-ooo11-ooooo-111oo-2x1oo"
 
-    Scenario: End Game, Revealing a cell with a mine
+    Scenario: End Game -> Revealing a cell with a mine
         Given the user loads the following mock data: "###-##x-###"
         When the user reveals the cell "(2, 3)"
         Then the cell "(2, 3)" should be a mine
         And the game should be over
     #deberia de hacer un scenario donde explique que ha de salir cuando acabe el juego ?
 
-    Scenario Outline: End game, should show all the mines in the board
+    Scenario Outline: End game -> should show all the mines in the board
         Given the user loads the following mock data: "##x-###-###"
         When the user reveals the cell "1,3" with a mine
         Then the board shoould be: "oox-oox-xoo"
 
     ##deberia de estar en core ?, habría que hacer para bomba suspected y bomba questionable ?
-    Scenario: End game, revealing all the mines with a tagged cell without a mines
+    Scenario: End game -> revealing all the mines with a tagged cell without a mines
         Given the user loads the following mock data: "##!-###-###"
         When the user tagg the cell "(1, 3)" without a mines
         And the user reveals the cell "(3, 3)" with a mines
         Then the board should be: "oo*-ooo-xxx"
 
 
-    Scenario: End game, revealing all the mines with a tegged cell with a mines
+    Scenario: End game -> revealing all the mines with a tegged cell with a mines
         Given the user loads the following mock data: "##!-###-###"
         When the user tagg the cell "(1, 3)" with a mines
         And the user reveals the cell "(3, 3)" with a mines
@@ -86,14 +85,6 @@ Feature: Minesweeper core
     Scenario: Win the game -> all the cells without mines have been revealed
         Given the user loads the following mock data: "#oo-#o#-ooo"
         Then the user wins the game
-#Scenario Outline: End game, Tagging a cell with a bomb -> should show all the bombs in the board except the tagged cell
-#    Given the user loads the following mockData: "<mockData>"
-#    When the user tags the cell "1,3"
-#    And the user revels the cell "3, 3" with a bomb
-#    Then the expected data in the board should be: "<expecteData>"
-##Then the cells with mine should show, except the cell tagged
-#Example:
-#        | mockData    | expectedData |
-#        | ##!-###-### | oo!-ooo-xox  |
 
+    
 TODO: Falta indicar las minas mal tageadas cuando revienta una mina - Añadir nuevo escenario
