@@ -1,22 +1,27 @@
-const ROW = 8;
-const COL = 8;
-let board = [];
 
-window.onload = function(){
-    drawBoard();
+
+window.onload = () => {
+    drawBoard(8, 8);
+
 }
 
-function drawBoard() {
-    for (let r = 0; r < ROW; r++) {
-        let row = []
-        for (let c = 0; c < COL; c++) {
-            //get cell position [1-2]
-            let cell = document.createElement("div")
-            cell.id = r.toString() + "-" + c.toString()
-            //cell.addEventListener("click, clickCell()")
-            document.getElementById("board").append(cell)
-            row.push(cell)
+function getCellId(i, j) {
+    return 'cell-' + i + '-' + j;
+}
+
+function drawBoard(numRows, numCols) {
+    let table = document.getElementById("dashboard-minesweeper");
+    // let row, cellId, td;
+    for (let i = 1; i <= numRows; i++) {
+        let row = document.createElement("tr");
+        row.setAttribute("id", i);
+        for (let j = 1; j <= numCols; j++) {
+            let td = document.createElement("td");
+            let cellId = getCellId(i, j);
+            td.setAttribute("id", cellId);
+            row.appendChild(td);
         }
-        board.push(row)
+        table.appendChild(row);
+
     }
 }
