@@ -1,16 +1,17 @@
 
+const COLUMNS = 8;
+const ROWS = 8;
 
 window.onload = () => {
-    drawBoard(8, 8);
-
+    drawMinefield(ROWS, COLUMNS);
 }
 
 function getCellId(i, j) {
     return 'cell-' + i + '-' + j;
 }
 
-function drawBoard(numRows, numCols) {
-    let table = document.getElementById("dashboard-minesweeper");
+function drawMinefield(numRows, numCols) {
+    let table = document.getElementById("field-mines");
     // let row, cellId, td;
     for (let i = 1; i <= numRows; i++) {
         let row = document.createElement("tr");
