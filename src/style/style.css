@@ -1,29 +1,15 @@
-#dashboard-minesweeper {
-    display: grid;
-
-
-    grid-template-columns: repeat(8, 94px);
-
-
-
+#field-mines {
+    display: inline-block;
 }
 
-#dashboard-minesweeper td {
-    display: grid;
+#field-mines td {
     width: 73px;
     height: 95px;
-    background: linear-gradient(2deg, rgba(78, 78, 78, 0.2), rgba(105, 105, 105, 0.4)),
-    linear-gradient(deg, #AAAAAA, #AAAAAA);
+    background: linear-gradient(2deg, rgba(78, 78, 78, 0.055), rgba(105, 105, 105, 0.521));
     border: 10px solid #dfdfdf86;
     box-shadow: 10px 10px 5px 0px #CACACA inset;
 
 }
-
-.clicked {
-    background-color: gray;
-}
-
-
 
 section {
     display: flex;
