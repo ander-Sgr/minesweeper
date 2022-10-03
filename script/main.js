@@ -26,3 +26,8 @@ function drawMinefield(numRows, numCols) {
 
     }
 }
+
+
+function getUrlParams(parametersName) {
+    const parameters = new URLSearchParams(window.location.search);
+}
