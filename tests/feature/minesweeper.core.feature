@@ -37,8 +37,8 @@ Background:
 Scenario: Revealing a cell with a mine, end game
     Given the user loads the following mock data:
         """
-        ooo
-        oox
+        ooo  
+        oox 
         ooo
         """
     When the user reveals the cell "(2, 3)"

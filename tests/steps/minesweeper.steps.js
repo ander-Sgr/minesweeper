@@ -35,3 +35,32 @@ Given('the number of rows in the minefield should be: {int}', async (int) => {
 	let numRows = (await getDimensionFieldMines()).rows
 	expect(numRows).toBe(int);
 });
+
+
+Given('the user loads the following mock data:', async (docString) => {
+	await page.goto(url + "?mockdata=" + docString);
+});
+
+Given('the untagged mines counter should be the following value: {int}', async (int) => {
+	let untagedMineCounter = await page.locator("data-testid=mines-counter").textContent();
+	expect(parseFloat(untagedMineCounter)).toBe(int);
+
+});
+
+
+/*
+When('the user reveals the cell {string}', function (string) {
+	// Write code here that turns the phrase above into concrete actions
+	return 'pending';
+});
+
+
+Then('the cell {string} should be a mine', function (string) {
+	// Write code here that turns the phrase above into concrete actions
+	return 'pending';
+});
+
+And('the game should be over', function () {
+	// Write code here that turns the phrase above into concrete actions
+	return 'pending';
+});*/
