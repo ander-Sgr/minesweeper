@@ -1,14 +1,18 @@
+import { drawMinefield } from "./createBoard.js";
+
 const COLUMNS = 8;
 const ROWS = 8;
-
+const EXCLAMASION_SYMBOL = "!";
+const INTERROGATE_SYMBOL = "?";
 
 let untagedMineCounter = 10;
 let remainingUntaggedMineCounter = 0;
+let winGame = false;
+let endGame = false;
+let flagEnabled = false;
+let minesLocation = [];
 
-
-window.onload = () => {
-    initGame();
-}
+initGame();
 
 function initGame() {
     let paramsURL = getURLParams('mockdata');
@@ -22,50 +26,44 @@ function initGame() {
         drawMinefield(ROWS, COLUMNS);
         setDefaultUntagedMineCounter(untagedMineCounter);
     }
+
 }
 
-function setCellId(i, j) {
-    return 'cell-' + i + '-' + j;
-}
+function getCellId(i, j) {
+    let cellId = 'cell-' + i + '-' + j;
+    let domCellId = document.getElementById(cellId);
 
-function getURLParams(mockdataParam) {
-    const parameters = new URLSearchParams(window.location.search);
-    if (parameters.has('mockdata')) {
-        mockDataValue = parameters.get(mockdataParam).split(" ");
-    } else {
-        mockDataValue = null;
-    }
-    return mockDataValue;
+    return domCellId;
 }
 
 
-function drawMinefield(numRows, numCols) {
-    let table = document.getElementById("field-mines");
-    // let row, cellId, td;
-    for (let i = 1; i <= numRows; i++) {
-        let row = document.createElement("tr");
-        row.setAttribute("id", i);
-        for (let j = 1; j <= numCols; j++) {
-            let cell = document.createElement("td");
-            let cellId = setCellId(i, j);
-            cell.setAttribute("id", cellId);
-            cell.setAttribute("data-testid", cellId);
-            row.appendChild(cell);
-        }
-        table.appendChild(row);
-
-    }
+function uncoverCell(cellId) {
+    let cell = document.getElementById(cellId);
+    cell.classList.add("uncovered");
 }
 
 function setDefaultUntagedMineCounter(untagedMineCounter) {
     let flags = document.getElementById("mines-counter");
-    flags.textContent += untagedMineCounter;
+    flags.innerText = untagedMineCounter;
 }
 
 function getDefaultUntagedMineCounter() {
     return untagedMineCounter;
 }
 
-
-
-
+function getURLParams(mockdataParam) {
+    const parameters = new URLSearchParams(window.location.search);
+    let  mockDataValue = parameters.get(mockdataParam);
+    if (parameters.has('mockdata')) {
+        for (let i = 0; i < mockDataValue.length; i++) {
+            if (mockDataValue[i].includes("-")) {
+                mockDataValue = mockDataValue.split("-");
+            } else if (mockDataValue[i].includes(" ")) {
+                mockDataValue = mockDataValue.split(" ");
+            }
+        }
+    } else {
+        mockDataValue = null;
+    }
+    return mockDataValue;
+}
