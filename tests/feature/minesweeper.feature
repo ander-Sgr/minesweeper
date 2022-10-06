@@ -27,12 +27,13 @@ Feature: Minesweeper
    Scenario: Default initial board
       And the number of columns in the minefield should be: 8
       And the number of rows in the minefield should be: 8
+      And all the cells should be: "covered";      
 
    Scenario: Default untagged mines counter
       And the untagged mines counter should be the following value: 10
 
-#Scenario: Default mines in the dashboard
-#  And the number of mines in the dashboard shoould be the following value: 10
+   Scenario: Default mines in the dashboard
+      And the number of mines in the dashboard shoould be the following value: 10
 #
 # Scenario: Default time counter
 #     And the time counter should be the following value: "0"
