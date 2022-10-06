@@ -36,6 +36,22 @@ Given('the number of rows in the minefield should be: {int}', async (int) => {
 	expect(numRows).toBe(int);
 });
 
+Given('all the cells should be: {string};', async  (string) => {
+	let dimesions =  await getDimensionFieldMines();
+	let rows = dimesions.rows;
+	let cols = dimesions.cols;
+
+	for (let i = 1; i <= rows; i++) {
+		for (let j = 1; j <= cols; j++) {
+			const cell = await page.locator('data-testid='+i+"-"+j);
+			console.log(cell);
+			await expect(cell).toHaveAttribute('class', string);
+		
+		}
+		
+	}
+});
+
 
 Given('the user loads the following mock data:', async (docString) => {
 	await page.goto(url + "?mockdata=" + docString);
@@ -47,6 +63,9 @@ Given('the untagged mines counter should be the following value: {int}', async (
 
 });
 
+Given('the number of mines in the dashboard shoould be the following value: {int}', async (int) => {
+	const minefield = await page.locator('[data-testid=field-mines] tr');
+});
 
 /*
 When('the user reveals the cell {string}', function (string) {
