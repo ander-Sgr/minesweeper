@@ -1,20 +1,64 @@
 #field-mines {
     display: inline-block;
+
+
 }
 
-#field-mines td {
-    width: 73px;
-    height: 95px;
-    background: linear-gradient(2deg, rgba(78, 78, 78, 0.055), rgba(105, 105, 105, 0.521));
-    border: 10px solid #dfdfdf86;
-    box-shadow: 10px 10px 5px 0px #CACACA inset;
+td {
+    width: 53px;
+    height: 50px;
+    background: linear-gradient(3deg, rgba(38, 9, 117, 0.308), rgba(78, 58, 156, 0.555));
+    border: rgba(0, 0, 0, 0.25) 1px solid;
+    box-shadow: inset 3px 3px 0 0 rgba(130, 94, 185, 0.301),
+        inset -3px -3px 0 0 rgba(0, 0, 0, 0.842);
+}
 
+.panel-dashboard{
+    display: grid;
+    grid-template-columns: repeat(3, 157px);
+    background-color: rgb(105, 100, 122);
+    color: #FFFFFF;
+    justify-content: center;
+    height: 80px;
+    align-items: center;
+    text-align: center;
+    font-size: 20px;
+}
+
+.uncovered{
+    background: linear-gradient(3deg, rgba(241, 241, 241, 0.308), rgba(243, 243, 243, 0.555));
 }
 
 section {
-    display: flex;
+    display: grid;
     justify-content: center;
-    align-items: center;
-
-    font-size: 2em;
 }
+
+.x1{
+    color:  blue;
+}
+
+.x2{
+    color: green;
+}
+
+.x3{
+    color:  red;
+}
+
+.x4{
+    color: navy;
+}
+
+.x5{
+    color: brown;
+}
+
+.x{
+    color: teal;
+}
+
+.x7{
+    color: gray;
+}
+

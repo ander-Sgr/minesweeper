@@ -5,26 +5,26 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="./style/style.css">
     <title>Minesweeper</title>
+    <script src="../script/main.js" defer type="module"></script>
+
 </head>
 
 <body>
     <section class="container-board">
         <div class="panel-dashboard">
-
             <div id="container-mine-counter">
                 Mines counter
-                <span id="mines-counter" data-testid="mines-counter"></span>
+                <p id="mines-counter" data-testid="mines-counter">0</p>
             </div>
             <div id="botton-status" data-testid="button-status">ButtonStatus</div>
             <div id="time-counter" data-testid="time-counter">TimeCounter</div>
         </div>
     </section>
-    <section>
+    <section id="dashboard">
         <table id="field-mines" data-testid="field-mines">
 
         </table>
     </section>
-    <script src="../script/main.js"></script>
 
 </body>
 
