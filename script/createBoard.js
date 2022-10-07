@@ -1,4 +1,3 @@
-
 let infoFieldMine = [];
 
 export function drawMinefield(numRows, numCols) {
@@ -33,6 +32,6 @@ function createCell(idRow, idCol) {
   return cell;
 }
 
-function setCellId(i, j) {
-  return 'cell-' + i + '-' + j;
+export function setCellId(i, j) {
+  return i + '-' + j;
 }

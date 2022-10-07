@@ -1,6 +1,6 @@
 Feature: Minesweeper core
 '
-(numRow, numCol) represents the coordinates of a cell
+numRow, numCol represents the coordinates of a cell
 
 Board data:
 Represents a cell with mine: "x"
@@ -34,6 +34,7 @@ Ex: http://127.0.0.1:5500/minesweeper/src/index.html&mockData=###-###-###
 Background:
     Given a user opens the app
 
+
 Scenario: Revealing a cell with a mine, end game
     Given the user loads the following mock data:
         """
@@ -41,8 +42,8 @@ Scenario: Revealing a cell with a mine, end game
         oox  
         ooo  
         """
-    When the user reveals the cell "(2, 3)"
-    Then the cell "(2, 3)" should be a mine
+    When the user reveals the cell "2-3"
+    Then the cell "2-3" should be a mine
     And the game should be over
 
 #

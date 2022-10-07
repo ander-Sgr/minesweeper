@@ -1,18 +1,20 @@
-import { drawMinefield } from "./createBoard.js";
+import { drawMinefield, setCellId } from "./createBoard.js";
 
 const COLUMNS = 8;
 const ROWS = 8;
+const BOMB_ICON = '&#128163;'
 const EXCLAMASION_SYMBOL = "!";
 const INTERROGATE_SYMBOL = "?";
 
-let untagedMineCounter = 10;
+const untagedMineCounter = 10;
 let remainingUntaggedMineCounter = 0;
 let winGame = false;
 let endGame = false;
 let flagEnabled = false;
-let minesLocation = [];
+export let minesLocation = [];
 
 initGame();
+addEventClick();
 
 function initGame() {
     let paramsURL = getURLParams('mockdata');
@@ -20,26 +22,61 @@ function initGame() {
     if (paramsURL !== null) {
         let rows = paramsURL.length;
         let cols = paramsURL[0].length;
-        console.log('rows', rows, 'cols', cols);
         drawMinefield(rows, cols);
     } else {
+        setMines(untagedMineCounter, ROWS, COLUMNS);
         drawMinefield(ROWS, COLUMNS);
         setDefaultUntagedMineCounter(untagedMineCounter);
+    }
+}
+
+function setMines(mineCounter, numRows, numCols) {
+    let remainingUntaggedMineCounter = mineCounter;
+    let counter = 0;
+    while (remainingUntaggedMineCounter > 0) {
+        let row = Math.floor(Math.random() * numRows) + 1;
+        let col = Math.floor(Math.random() * numCols) + 1;
+        let cellId = setCellId(row, col);
+        
+        if (!minesLocation.includes(cellId)) {
+            minesLocation.push(cellId);
+            remainingUntaggedMineCounter -= 1;
+            counter++;
+        }        
+    }
+}
+
+
+function checkMines(cellId) {
+    if (minesLocation.includes(cellId)) {
+        let cells = document.getElementById(cellId);
+        cells.classList.add("mine");
+        setIconBomb(cellId);
+        console.log('mine');
+    }
+}
+
+function setIconBomb(cellId) {
+    document.getElementById(cellId).innerHTML = BOMB_ICON;
+}
+
+function addEventClick() {
+    let cells = document.getElementsByTagName("td");
+    for (const elements of cells) {
+        elements.addEventListener('click', () => {
+            uncoverCell(elements.getAttribute("id"));
+        });
+        elements.addEventListener('click', () => {
+            checkMines(elements.getAttribute("id"));
+        });
     }
 
 }
 
-function getCellId(i, j) {
-    let cellId = 'cell-' + i + '-' + j;
-    let domCellId = document.getElementById(cellId);
-
-    return domCellId;
-}
-
-
 function uncoverCell(cellId) {
     let cell = document.getElementById(cellId);
     cell.classList.add("uncovered");
+    cell.classList.remove("covered");
 }
 
 function setDefaultUntagedMineCounter(untagedMineCounter) {
@@ -53,7 +90,7 @@ function getDefaultUntagedMineCounter() {
 
 function getURLParams(mockdataParam) {
     const parameters = new URLSearchParams(window.location.search);
-    let  mockDataValue = parameters.get(mockdataParam);
+    let mockDataValue = parameters.get(mockdataParam);
     if (parameters.has('mockdata')) {
         for (let i = 0; i < mockDataValue.length; i++) {
             if (mockDataValue[i].includes("-")) {
