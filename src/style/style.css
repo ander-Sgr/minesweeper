@@ -13,7 +13,7 @@ td {
         inset -3px -3px 0 0 rgba(0, 0, 0, 0.842);
 }
 
-.panel-dashboard{
+.panel-dashboard {
     display: grid;
     grid-template-columns: repeat(3, 157px);
     background-color: rgb(105, 100, 122);
@@ -25,8 +25,18 @@ td {
     font-size: 20px;
 }
 
-.uncovered{
+.uncovered {
     background: linear-gradient(3deg, rgba(241, 241, 241, 0.308), rgba(243, 243, 243, 0.555));
+}
+
+.mineExploted {
+    text-align: center;
+    font-size: 25px;
+}
+
+tr {
+    font-size: 35px;
+    text-align: center;
 }
 
 section {
@@ -34,31 +44,38 @@ section {
     justify-content: center;
 }
 
-.x1{
-    color:  blue;
+.x1 {
+    color: blue;
 }
 
-.x2{
+.x2 {
     color: green;
 }
 
-.x3{
-    color:  red;
+.x3 {
+    color: red;
 }
 
-.x4{
+.x4 {
     color: navy;
 }
 
-.x5{
+.x5 {
     color: brown;
 }
 
-.x{
+.x6 {
     color: teal;
 }
 
-.x7{
+.x7 {
     color: gray;
 }
 
+.disabled {
+    pointer-events: none !important;
+}
+
+.enabled {
+    pointer-events: all !important;
+}
