@@ -1,3 +1,29 @@
+const cellComponent = {
+  x: 0,
+  y: 0,
+  isMineExploted: false,
+  isReveled: false,
+  userTag: '',
+  isWrongTagged: false,
+  numberOfMinesAround: 0,
+  isMine: false,
+}
+
+function createTable(numRows, numCols) {
+  const board = [];
+
+  for (let row = 1; row <= numRows; row++) {
+    board.push([]);
+    for (let col = 1; col <= numCols; col++) {
+      board[row].push({ ...cellComponent, y: row, x: col });
+    }
+
+  }
+  return board;
+}
+
+
+
 
 let infoFieldMine = [];
 
@@ -19,8 +45,7 @@ function createRow(idRow, numCols) {
     colTr.appendChild(cell);
     arrRows.push(cell);
   }
-  infoFieldMine.push(arrRows);
-  //  console.log(arrRows);
+  infoFieldMine.push([arrRows]);
   return colTr;
 }
 
@@ -33,6 +58,7 @@ function createCell(idRow, idCol) {
   return cell;
 }
 
-function setCellId(i, j) {
-  return 'cell-' + i + '-' + j;
+
+export function setCellId(i, j) {
+  return i + '-' + j;
 }
