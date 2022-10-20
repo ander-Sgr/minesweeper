@@ -177,6 +177,18 @@ function revealNegighbors(row, col) {
     }
 }
 
+function addEventClick() {
+    let cells = document.getElementsByTagName("td");
+    for (const elements of cells) {
+        elements.addEventListener('click', () => {
+            uncoverCell(elements.getAttribute("id"));
+        });
+        elements.addEventListener('click', () => {
+            checkMines(elements.getAttribute("id"));
+        });
+    }
+
+}
 
 function eventCellClick(cells) {
     cells.addEventListener("click", (e) => {
