@@ -1,6 +1,10 @@
-const { Given, When, Then, DataTable, RerunFormatter } = require('@cucumber/cucumber');
+const { Given, When, Then } = require('@cucumber/cucumber');
 const { expect } = require('@playwright/test');
 const url = '127.0.0.1:5500/minesweeper/src/index.html';
+const BOMB_ICON = '&#128163;'
+const EXCLAMASION_SYMBOL = "!";
+const QUESTION_SYMBOL = "?";
+
 
 async function getDimensionFieldMines() {
 	const dimesion = {
@@ -20,6 +24,21 @@ async function getDimensionFieldMines() {
 	return dimesion;
 }
 
+function replaceLineBreak(mockdata) {
+	return mockdata.replaceAll("\n", "-");
+}
+
+function getCellId(cellId) {
+	let splitCellId = cellId.split('-');
+	let row = parseInt(splitCellId[0]) - 1;
+	let col = parseInt(splitCellId[1]) - 1;
+	return row + '-' + col;
+}
+
+/*
+Given('the user loads the following mock data:', async (mockData) => {
+	await page.goto(url + "?mockData=" + mockData.replaceAll("\n", "-"));
+});*/
 
 Given('a user opens the app', async () => {
 	await page.goto(url);
@@ -36,50 +55,33 @@ Given('the number of rows in the minefield should be: {int}', async (int) => {
 	expect(numRows).toBe(int);
 });
 
-Given('all the cells should be: {string};', async  (string) => {
-	let dimesions =  await getDimensionFieldMines();
+Given('all the cells should be: {string};', async (string) => {
+	let dimesions = await getDimensionFieldMines();
 	let rows = dimesions.rows;
 	let cols = dimesions.cols;
 
 	for (let i = 1; i <= rows; i++) {
 		for (let j = 1; j <= cols; j++) {
-			const cell = await page.locator('data-testid='+i+"-"+j);
-			console.log(cell);
+			const cell = await page.locator('data-testid=' + i + "-" + j);
 			await expect(cell).toHaveAttribute('class', string);
-		
+
 		}
-		
+
 	}
 });
 
 
 Given('the user loads the following mock data:', async (docString) => {
-	await page.goto(url + "?mockdata=" + docString);
+	await page.goto(url + "?mockdata=" + replaceLineBreak(docString));
 });
 
-Given('the untagged mines counter should be the following value: {int}', async (int) => {
-	let untagedMineCounter = await page.locator("data-testid=mines-counter").textContent();
-	expect(parseFloat(untagedMineCounter)).toBe(int);
-
+When('the user reveals the cell {string}', async (string) => {
+	await page.click('data-testid=' + getCellId(string));
 });
 
-Given('the number of mines in the dashboard shoould be the following value: {int}', async (int) => {
-	const minefield = await page.locator('[data-testid=field-mines] tr');
-});
 
-/*
-When('the user reveals the cell {string}', function (string) {
+
+Then('the game should be over', async () => {
 	// Write code here that turns the phrase above into concrete actions
 	return 'pending';
 });
-
-
-Then('the cell {string} should be a mine', function (string) {
-	// Write code here that turns the phrase above into concrete actions
-	return 'pending';
-});
-
-And('the game should be over', function () {
-	// Write code here that turns the phrase above into concrete actions
-	return 'pending';
-});*/
