@@ -6,6 +6,6 @@
     "playwright": "^1.25.1"
   },
   "scripts": {
-    "test:e2e": "cucumber-js --require ./cucumber.conf.js --require tests/steps/**/*.steps.js --tags \"not @done\""
+    "test:e2e": "cucumber-js --require ./cucumber.conf.js --require tests/steps/**/*.steps.js --format @cucumber/pretty-formatter --format html:Tests/Reports/cucumber-report.html --tags \"not @manual\" --parallel 4"
   }
 }

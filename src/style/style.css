@@ -79,3 +79,7 @@ section {
 .enabled {
     pointer-events: all !important;
 }
+
+#button-status{
+    cursor: pointer;
+}

@@ -23,7 +23,7 @@ Feature: Minesweeper core
     For load the mockdata the user have to put in the URL as a param the following data presents
     in the Scenarios,
     For example the user loads "ooo-xox-ooo" its represents 3 rows with 3 columns
-    Ex: http://127.0.0.1:5500/minesweeper/src/index.html&mockData=###-###-###
+    Ex: http://127.0.0.1:5500/minesweeper/src/index.html&mockData=ooo-ooo-ooo
     '
 
     Background:
@@ -41,113 +41,94 @@ Feature: Minesweeper core
         Then the game should be over
 
 
-#    Scenario Outline: Revealing a cell without a mine -> should show the numbers of mines adjacents
-#        Given the user loads the following mock data: "<mockData>"
-#        When the user reveals the cell "(2, 2)"
-#        Then the the cell "(2, 2)" should show the following value: "<numberOfMines>"
-#
-#        Examples:
-#            | mockData    | numberOfMines |
-#            | oxo-ooo-ooo | 1             |
-#            | oxo-ooo-xoo | 2             |
-#            | oxx-oox-ooo | 3             |
-#            | xxo-ooo-xox | 4             |
-#            | ooo-xox-xxx | 5             |
-#            | xox-xoo-xxx | 6             |
-#            | xxx-oox-xxx | 7             |
-#            | xxx-xox-xxx | 8             |
-#
-#    Scenario: Revealing a cell without mine and without surrounding mines, the cell will be an empty cell
-#        Given the user loads the following mock data:
-#            """
-#            | o | o | o |
-#            | o | o | o |
-#            | o | o | o |
-#            | * | * | * |
-#            """
-#        When the user reveals the cell "(2,2)"
-#        Then the cell "(2,2)" should be empty
-#    Scenario: Revealing an empty cell -> should reveals their neighbors
-#        Given the user loads the following mock data:
-#            """
-#            | o | o | o |
-#            | o | o | o |
-#            | o | o | o |
-#            | * | * | * |
-#            """
-#        When the user reveals the cell "(2, 2)"
-#        Then the board should looks like:
-#            """
-#            | . | . | . |
-#            | . | . | . |
-#            | . | . | . |
-#            | # | # | # |
-#            """
-#
-#
-#    Scenario: An empty cell revealed by a neightbour, the adjacents cells will be revealed
-#        Given the user loads the following mock data:
-#            """
-#            | o | o | x | o | o |
-#            | o | o | o | o | o |
-#            | o | o | o | o | o |
-#            """
-#        When the user reveals the cell "(3,1)"
-#        Then the board should looks like:
-#            """
-#            | o | 1 | # | 1 | o |
-#            | o | 1 | 1 | 1 | o |
-#            | o | o | o | o | o |
-#            """
-#
-#
-#    Scenario: End game -> should show all the mines in the board
-#        Given the user loads the following mock data:
-#            """
-#            | o | o | x |
-#            | o | o | x |
-#            | x | o | o |
-#            """
-#        When the user reveals the cell "1,3" with a mine
-#        Then the board shoould be:
-#            """
-#            | . | . | x |
-#            | . | . | x |
-#            | x | . | . |
-#            """
-#
-#
-#    ##deberia de estar en core ?, habría que hacer para bomba suspected y bomba questionable ?
-#    Scenario: End game -> revealing all the mines with a tagged cell without a mines  //como está tageada?
-#        Given the user loads the following mock data:
-#            """
-#            | o | o | o |
-#            | o | o | o |
-#            | x | x | x |
-#            """
-#        When the user tagg the cell "(1, 3)"
-#        And the user reveals the cell "(3, 3)"
-#        Then the board should be:
-#            """
-#            | . | . | * |
-#            | . | . | . |
-#            | x | x | x |
-#            """
-#
-#
-#    Scenario: End game -> revealing all the mines with a tagged cell with a mines
-#        Given the user loads the following mock data:
-#            """
-#            | o | o | x |
-#            | o | o | o |
-#            | x | x | x |
-#            """
-#        When the user tagg the cell "(1, 3)" with a mines // as mined
-#        And the user reveals the cell "(3, 3)" with a mines
-#        Then the board should be:
-#            """
-#            | . | . | ! |
-#            | . | . | . |
-#            | x | x | x |
-#            """
-#
+    Scenario Outline: Revealing a cell without a mine -> should show the numbers of mines adjacents
+        Given the user loads the following mock data: "<mockData>"
+        When the user reveals the cell "2-2"
+        Then the the cell "2-2" should show the following value: "<numberOfMines>"
+
+        Examples:
+            | mockData    | numberOfMines |
+            | oxo-ooo-ooo | 1             |
+            | oxo-ooo-xoo | 2             |
+            | oxx-oox-ooo | 3             |
+            | xxo-ooo-xox | 4             |
+            | ooo-xox-xxx | 5             |
+            | xox-xoo-xxx | 6             |
+            | xxx-oox-xxx | 7             |
+            | xxx-xox-xxx | 8             |
+
+    Scenario: Revealing a cell without mine and without surrounding mines, the cell will be an empty cell
+        Given the user loads the following mock data:
+            """
+            ooo
+            ooo
+            ooo
+            xxx
+            """
+        When the user reveals the cell "2-2"
+        Then the cell "2-2" should be empty
+
+
+    Scenario: Revealing an empty cell -> should reveals their neighbors
+        Given the user loads the following mock data:
+            """
+            ooo
+            ooo
+            ooo
+            xxx
+            """
+        When the user reveals the cell "2-2"
+        Then the board should looks like:
+            """
+            ...
+            ...
+            232
+            ###
+            """
+
+    Scenario: An empty cell revealed by a neightbour, the adjacents cells will be revealed
+        Given the user loads the following mock data:
+            """
+            ooxoo
+            ooooo
+            ooooo
+            """
+        When the user reveals the cell "3-1"
+        Then the board should looks like:
+            """
+            .1#1.
+            .111.
+            .....
+            """
+
+    Scenario: End game -> should show all the mines in the board
+        Given the user loads the following mock data:
+            """
+            oox
+            oox
+            xoo
+            """
+        When the user reveals the cell "1-3"
+        Then the board should looks like:
+            """
+            ##x
+            ##x
+            x##
+            """
+
+
+    Scenario: End game -> revealing all the mines with a tagged cell with a mines
+        Given the user loads the following mock data:
+            """
+            oox
+            ooo
+            xxx
+            """
+        When the user tag the cell "1-3" as a suspected mine
+        And the user reveals the cell "3-3"
+        Then the board should looks like:
+            """
+            ##!
+            ###
+            xxx
+            """
